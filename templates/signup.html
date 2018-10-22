@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title> Indian Railways </title>
+	<link rel="shortcut icon" href="{% static "/favicon.png" %}" ></link>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link href="{% static "/bootstrap.min.css" %}" rel="stylesheet" >
+	<link href="{% static "/bootstrap.css" %}" rel="stylesheet" >
+	<link href="{% static "/Default.css" %}" rel="stylesheet" >	
+	<script type="text/javascript"  src="{% static "/jquery.js" %}"></script>
+	<script>
+		$(document).ready(function()
+		{
+			//alert($(window).width());
+			var x=(($(window).width())-1024)/2;
+			//alert(x);
+			$('.wrap').css("left",x+"px");
+		});
+		$(window).resize(function(){
+			var x=(($(window).width())-1024)/2;
+			//alert(x);
+			$('.wrap').css("left",x+"px");
+		});
+	</script>
+	<script type="text/javascript" src="{% static "/bootstrap.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/bootstrap.js" %}"></script>
+	<script type="text/javascript" src="{% static "/man.js" %}"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="header">
+			<div style="float:left;width:150px;">
+				<img src="{% static "logo.jpg" %}"/>
+			</div>		
+			<div id="heading">
+				<a href="/">Indian Railways</a>
+			</div>
+		</div>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container" >
+			<a class="brand" href="/" >HOME</a>
+			<a class="brand" href="/train/" >FIND TRAIN</a>
+			<a class="brand" href="/reservation/">RESERVATION</a>
+			<a class="brand" href="/profile/">PROFILE</a>
+			<a class="brand" href="/contact/">CONTACT</a>
+			{% if request.session.username is not None %}
+				{% ifnotequal "invalid" request.session.username %}
+					<a class="brand" href="/display/">TICKETS</a>
+				{% else %}
+					<a class="brand" href="/about/">ABOUT US</a>
+				{% endifnotequal %}
+			{% else %}
+				<a class="brand" href="/about/">ABOUT US</a>
+			{% endif %}
+			
+			</div>
+		</div>
+	</div>
+		<!-- registration form -->
+		<div align="center">
+		<div class="span12 well">
+		<div style="font-size:30px;"> Signup</div>
+		<br/>
+		
+		
+		<div class="table">
+		<form name="signup"  method="POST"  >
+		{% csrf_token %}
+		<table>
+		{% if form.errors %}
+		    {% for error in field.errors %}
+		    <tr><div class="alert alert-danger">
+	                <strong>{{ error|escape }}</strong>
+	            </div>
+	    	</tr>
+	        {% endfor %}
+	    	{% for error in form.non_field_errors %}
+		    <tr>
+	            <div class="alert alert-danger">
+	                <strong>{{ error|escape }}</strong>
+	            </div>
+	    	</tr>
+		    {% endfor %}
+		{% endif %}	
+		{% if messages %}
+			<div class="alert alert-success">
+		    {% for message in messages %}
+		    	<strong>{{ message }}</strong> 
+		    {% endfor %}
+			</div>
+		{% endif %}
+		<tr>
+			<td style="border-top:0px;"> First Name <font color=red>* </font></td>
+			<td style="border-top:0px;"><input type="text" name="first_name" class="input-block-level" placeholder="Enter the First name" onblur="return name1()"><span id="fn"></span></td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"> Last Name <font color=red>* </font> </td>
+			<td style="border-top:0px;"><input type="text" name="last_name" class="input-block-level" placeholder="Enter the Last name" onblur="return name12()"><span id="ln"></span></td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"> Email ID <font color=red>* </font> </td>
+			<td style="border-top:0px;"><input type="email" class="input-block-level" name="email_id" placeholder="Enter the valid email id"></td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"> Password <font color=red>* </font> </td>
+			<td style="border-top:0px;"><input type="password" class="input-block-level" name="password" placeholder="Enter the password" onblur="return check1()"> <span id="ps" ></span></td>
+		</tr>
+		
+		<tr>
+			<td style="border-top:0px;"> Confirm Password <font color=red>* </font> </td>
+			<td style="border-top:0px;"><input type="password" class="input-block-level" name="cpsd" placeholder="confirm the password" onblur="return confirm1()"> <span id="cps" ></span></td>
+		</tr>
+		
+		<tr>
+			<td style="border-top:0px;"> Gender <font color=red>* </font> </td>
+			<td style="border-top:0px;"><select name="gender">
+				<option value="male">MALE</option>
+				<option value="female">FEMALE</option>
+			    </select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td style="border-top:0px;">Marital Status <font color=red>* </font> </td>
+			<td style="border-top:0px;"><select name="martial_status">
+				<option value="married">Married</option>
+				<option value="unmarried">Unmarried</option>
+			    </select>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"> Date of Birth <font color=red>* </font></td>
+			<td style="border-top:0px;"><input type="date" class="input-medium"  name="dob"></td>
+		</tr>
+		
+		<tr>
+			<td style="border-top:0px;"> Mobile No. <font color=red>*</font> </td>
+			<td style="border-top:0px;"> +91 <input type="text" class="input-block-level"  name="mobile_no" placeholder="" onblur="return mobile1()"> <span id="mn"></span></td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"> Security Question <font color=red>* </font></td>
+			<td style="border-top:0px;">
+				<select name="sec_question">
+				<option value="What is your pets name ?">What is your pets name ?</option>				
+				<option value="What was the name of your first school?">What was the name of your first school?</option>				
+				<option value="What is your favorite hero?">What is your favorite hero?</option>
+				<option value="What is your favorite movie?">What is your favorite movie?</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"> Your Answer <font color=red>* </font></td>
+			<td style="border-top:0px;"> <input type="text" name="sec_ans" class="input-block-level" placeholder="Enter the your answer" onblur="return ans1()"><span id="an"></span></td>
+		</tr>
+		<tr>
+			<td style="border-top:0px;"><input class="btn btn-info"type="submit" value="submit" id="subb" ></td>
+			<td style="border-top:0px;"><input class="btn btn-info"type="reset" value="Reset"></td>
+		</tr>
+		
+		</table>
+		</form>
+		</div>
+		</div>
+		</div>
+		<footer >
+			<div style="width:100%;">
+				<div style="float:left;">
+					<p class="text-right text-info">  &copy; 2018 Copyright PVT Ltd.</p>	
+				</div>
+				<div style="float:right;">
+					<p class="text-right text-info">	Desinged By : Ayush Tripathi</p>
+				</div>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

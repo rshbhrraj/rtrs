@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_main %}
+	<title> Find Train </title>
+{% endblock %}
+{% block content2 %}
+	{{ block.super }}
+		<!-- Find train-->
+		<div class="span12 well" id="boxh">
+		
+			{% if form.errors %}
+			    {% for error in field.errors %}
+			    <tr><div class="alert alert-danger">
+		                <strong>{{ error|escape }}</strong>
+		            </div>
+		    	</tr>
+		        {% endfor %}
+		    	{% for error in form.non_field_errors %}
+		    	
+			    <tr>
+		            <div class="alert alert-danger">
+		                <strong>{{ error|escape }}</strong>
+		            </div>
+		    	</tr>
+			    {% endfor %}
+			{% endif %}	
+			{% if messages %}
+				<div class="alert alert-error">
+			    {% for message in messages %}
+			    	<strong>{{ message }}</strong> 
+			    {% endfor %}
+				</div>
+			{% endif %}
+			<form style="margin:0px;" method="POST" >
+			{% csrf_token %}		
+			<table class="table" style="margin-bottom:0px;">
+				<tr>
+					<th style="border-top:0px;">
+						 <label style="font-weight:bold;">Search Train </label>
+					</th>
+
+					{% if retained_data is None %}
+						<td style="border-top:0px;">
+							<select style="width:120px;" name="type_of_search" id="myselect" onchange="clicker()" >
+								<option value="by_name" >By Name</option>
+								<option value="by_number" >By Number</option>
+							</select>
+						</td>
+						<td  style="border-top:0px;"> <label id="mbox">From </label></td>
+						<td style="border-top:0px;" >
+							<input  list="source" class="input-block-level" name="source" id="byn" >
+								<datalist id="source">
+								{% for i in station_req %}
+									<option value="{{i.station_id}}">
+								{% endfor %}
+								</datalist>
+							<input list="source2" class="input-block-level" name="source2" id="bynum" >
+								<datalist id="source2">
+								{% for i in train_req %}
+									<option value="{{i.train_number}}">
+								{% endfor %}
+								</datalist>
+						</td>
+						</td>
+						<td id="xbox" style="border-top:0px;"><label> To </label></td>
+						<td style="border-top:0px;">
+							<input list="destination" id="xbox1" type="text" class="input-block-level" name="destination" >
+								<datalist id="destination">
+								{% for i in station_req %}
+									<option value="{{i.station_id}}">
+								{% endfor %}
+							</datalist>
+						</td>
+						<td style="border-top:0px;"><input class="btn btn-info" type="submit" value="Find" > </td>
+					{% else %}
+						<td style="border-top:0px;">
+							<select name="type_of_search" id="myselect" disabled readonly value="{{retained_data.type_of_search}}">
+							<option >
+								{% ifnotequal retained_data.type_of_search "by_number"%}
+										By Name
+								{% else %}
+										By Number
+								{% endifnotequal %}
+							</option>
+							</select>
+						</td>
+						<td  style="border-top:0px;"> <label id="mbox" >From </label></td>
+						<td style="border-top:0px;"><input  type="text" class="input-block-level" name="source" id="byn" readonly value=
+							{% ifnotequal retained_data.type_of_search "by_number"%}
+								"{{ retained_data.source }}"
+							{% else %}
+								"{{retained_data.source2 }}"
+							{% endifnotequal %}>
+						</td>
+						{% ifnotequal retained_data.destination "" %}
+							<td id="xbox" style="border-top:0px;"><label> To </label></td>
+							<td style="border-top:0px;"><input id="xbox1" type="text" class="input-block-level" name="destination" readonly value="{{retained_data.destination}}"></td>
+						{% endifnotequal %}
+						<td style="border-top:0px;"><input class="btn btn-info" type="submit" value="Find" disabled> </td>
+					{% endif %}
+					
+					<td style="border-top:0px;"><a href="/train" class="btn btn-info" type="reset" value="Reset">Reset</a></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+<!-- display result -->
+		{% if data is not None %}
+		<div class="span12 well" style="overflow:auto;">
+				<table class="table">
+				<tr>
+					<th style="border-top:0px;"> Train No.</th>
+					<th style="border-top:0px;"> Train Name </th>
+					<th style="border-top:0px;"> Orig. </th>
+					<th style="border-top:0px;"> Des. </th>
+					<th style="border-top:0px;"> M </th>
+					<th style="border-top:0px;"> T </th>
+					<th style="border-top:0px;"> W </th>
+					<th style="border-top:0px;"> T </th>
+					<th style="border-top:0px;"> F </th>
+					<th style="border-top:0px;"> S </th>
+					<th style="border-top:0px;"><font color=red> S </font></th>
+				</tr>
+				{% for i in data %}
+					<tr >
+					<td>
+						<a href="/schedule/train_num={{i.train_number}}" >{{i.train_number}}</a>
+					</td>
+					<td>
+						{{i.train_name}}	
+					</td>
+					<td>
+						{{i.origination}}	
+					</td>
+					<td>
+						{{i.destination}}	
+					</td>
+					<td>
+						{{i.monday}}	
+					</td>
+					<td>
+						{{i.tuesday}}	
+					</td>
+					<td>
+						{{i.wednesday}}	
+					</td>
+					<td>
+						{{i.thursday}}	
+					</td>
+					<td>
+						{{i.friday}}	
+					</td>
+					<td>
+						{{i.saturday}}	
+					</td>
+					<td><font color=red>
+						{{i.sunday}}	
+						</font>
+					</td>
+					</tr>
+				{% endfor %}
+				</table>
+			</div>
+		{% endif %}
+
+{% endblock %}

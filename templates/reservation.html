@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content_main %}
+	<title> Reservation </title>
+{% endblock %}
+
+
+
+{% block content2 %}
+	{{ block.super }}
+	<div class="row">
+		<!-- find train with qouta-->
+		<div class="span4 well">
+			<form method="POST">
+				{% csrf_token %}
+				<table class="table">
+					{% if form.errors %}
+					    {% for error in field.errors %}
+					    <tr><div class="alert alert-danger">
+				                <strong>{{ error|escape }}</strong>
+				            </div>
+				            
+				    	</tr>
+				        {% endfor %}
+
+				    	{% for error in form.non_field_errors %}
+					    <tr>
+				            <div class="alert alert-danger">
+				                <strong>{{ error|escape }}</strong>
+				            </div>
+				    	</tr>
+					    {% endfor %}
+					{% endif %}	
+					{% if messages %}
+						<div class="alert alert-success">
+					    {% for message in messages %}
+					    	<strong>{{ message }}</strong> 
+					    {% endfor %}
+						</div>
+					{% endif %}
+					{% if retained_data is not None %}
+						<tr>
+							<th style="border-top:0px;"><label> From </label></th>	
+							<td style="border-top:0px;"><input type="text" class="input-block-level" name="boarding_station" id="fr" 
+								value="{{ retained_data.boarding_station}}" readonly>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<th style="border-top:0px;"><label> To </label></th>
+							<td style="border-top:0px;"><input type="text" class="input-block-level" name="destination_station" id="to1" value="{{ retained_data.destination_station}}" readonly></td>
+						</tr>
+						<tr>
+							<th style="border-top:0px;"><label> Quota </label></th>
+							<td style="border-top:0px;">
+							<select name="quota" value="{{ retained_data.quota}} " readonly>
+								<option value="General" selected="true">General</option>
+								<option value="Ladies">Ladies</option>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<th style="border-top:0px;"><label> Date</label></th>
+							<td style="border-top:0px;"><input type="text"  class="input-block-level input-medium" name="doj" id="date" value="{{ retained_data.doj}}" readonly></td>
+						</tr>
+					{% else %}
+						<tr>
+							<th style="border-top:0px;"><label> From </label></th>	
+							<td style="border-top:0px;">
+
+								<input  list="boarding"class="input-block-level" name="boarding_station" id="fr" >
+								<datalist id="boarding">
+								{% for i in station_req %}
+									<option value="{{i.station_id}}">{{i.station_id}}</option>
+								{% endfor %}
+								</datalist>
+							</td>
+						</tr>
+						<tr>
+							<th style="border-top:0px;"><label> To </label></th>
+							<td style="border-top:0px;">
+								<input  list="destination" class="input-block-level" name="destination_station" id="to1">
+								<datalist id="destination">
+								{% for i in station_req %}
+									<option value="{{i.station_id}}">{{i.station_id}}</option>
+								{% endfor %}
+								</datalist>
+							</td>
+						</tr>
+						<tr>
+							<th style="border-top:0px;"><label> Quota </label></th>
+							<td style="border-top:0px;">
+							<input list="quota" name="quota" >
+								<datalist id="quota">
+									<option value="General" selected="true">General</option>
+									<option value="Ladies">Ladies</option>
+								</datalist>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<th style="border-top:0px;"><label> Date</label></th>
+							<td style="border-top:0px;">
+								<input class="input-block-level input-medium" name="doj" id="date" placeholder="Date" type="date" value="{% now 'Y-m-d' %}" min="{% now 'Y-m-d' %}" max="{{ dt }}">
+							</td>
+						</tr>
+					{% endif %}
+						<tr>
+							<td style="border-top:0px;"><input class="btn btn-info" type="submit" value="OK"></td>
+							<td style="border-top:0px;"><a href="/reservation" class="btn btn-info" type="reset" value="Reset">Reset</a></td>
+						</tr>
+				</table>
+			</form>
+		</div>
+		<!-- display train -->
+		<div class="span8 well" style="overflow:auto;">
+			{% if data is not None %}
+			<table class="table">
+			<tr>
+				<th style="border-top:0px;"> Train No.</th>
+				<th style="border-top:0px;"> Train Name </th>
+				<th style="border-top:0px;"> Orig. </th>
+				<th style="border-top:0px;"> Des. </th>
+			</tr>
+				{{i}}
+				{% for i in data %}
+					{% for j in i %}
+						<tr class="text-error">
+							<td > {{ j.train_number }} </td>
+							<td > 
+							<a href="/reservation_details?train_num={{j.train_number}}&from={{retained_data.boarding_station}}&to={{retained_data.destination_station}}&doj={{retained_data.doj}}&quota={{retained_data.quota}}">{{ j.train_name }}</a></td>
+							<td > {{ j.origination }} </td>
+							<td > {{ j.destination }} </td>
+						</tr>
+					{% endfor %}
+				{% endfor %}
+				</table>
+			{% else %}
+			</table>
+			<div class=\"alert alert-error\"  style=\"margin:100px 180px;\"> please search the train.. </div>
+			{% endif %}
+		</div>
+
+	</div>
+{% endblock content2 %}

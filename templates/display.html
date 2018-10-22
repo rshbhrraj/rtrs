@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_main %}
+	<title> Reservation </title>
+{% endblock %}
+
+
+{% block content2 %}
+		<div class="span12 well">
+			<div align="center" style="border-bottom: 3px solid #ddd;">
+				<h2>Ticket Detail </h2>
+			</div>
+			<br>
+			
+				{% if messages %}
+					<div class="alert alert-error">
+				    {% for message in messages %}
+				    	<strong>{{ message }}</strong>
+				    {% endfor %}
+					</div>
+				{% endif %}
+				{% if flag is 1 %}
+				<div >
+					<table class="table">
+					<tr>
+						<th style="border-top:0px; text-align: center" align="right">S.No.</th>
+						<th style="border-top:0px; text-align: center" align="right">Pnr No.</th>
+						<th style="border-top:0px; text-align: center" align="right">Train No.</th>
+						<th style="border-top:0px; text-align: center" align="right">Coach </th>
+						<th style="border-top:0px; text-align: center" align="right">Date of Journey</th>
+						<th style="border-top:0px; text-align: center" align="right">From</th>
+						<th style="border-top:0px; text-align: center" align="right">To</th>
+					</tr>
+					{% for i in data%}					
+						<tr>
+							<td style="border-top:0px; text-align: center"><label class="text-error">{{ forloop.counter }}</label></td>
+							<td style="border-top:0px; text-align: center"><label class="text-error"><a href="#">{{i.pnr_no}}</a></label></td>
+							<td style="border-top:0px; text-align: center"><label class="text-error">{{i.train_number}}</label></td>
+							<td style="border-top:0px; text-align: center"><label class="text-error">{{i.coach}}</label></td>
+							<td style="border-top:0px; text-align: center"><label class="text-error">{{i.doj}}</label></td>
+							<td style="border-top:0px; text-align: center"><label class="text-error">{{i.boarding_station}}</label></td>
+							<td style="border-top:0px; text-align: center"><label class="text-error">{{i.destination}}</label></td>
+						</tr>
+					{% endfor %}
+					</table>
+					</div>
+					<div >
+						<button onClick="window.print()">Print </button>
+					</div>
+				{% endif %}			
+		</div>
+{% endblock %}

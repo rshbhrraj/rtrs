@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_main %}
+	<title> About US </title>
+{% endblock %}
+
+{% block content2 %}
+	{{ block.super }}	
+		<div class="span12 well">
+			<div  style="float:left; margin-right:200px; margin-top:50px;">
+				<div align="left" style="font-size:36px; font-family:'Viner Hand ITC';" > About Us &nbsp;  
+					<hr  style="border-bottom:1px solid #A0A0A0; border-top:1px solid #A0A0A0; width:500px;" /></div>
+					<div >
+						<div  style="margin-left:100px; ">
+							<table style="padding:5px;">
+								<tr> 
+									<td > Name &nbsp; </td>
+									<td style="font-family:Kristen ITC;"> : Ayush Tripathi</td>
+								</tr>
+								<tr>
+									<td > Profession &nbsp; </td>
+									<td style="font-family:Kristen ITC;"> : B.Tech. Information Technology ** </td>
+								</tr>
+								<tr>
+									<td > University &nbsp; </td>
+									<td style="font-family:Kristen ITC;"> : Vellore Institute of Technology </td>
+								</tr>
+							</table>
+							<div style="margin-top:20px;">
+							 	Follow Us On &nbsp;  
+								<a href="http://www.facebook.com/ayushtripathi51" target="_blank"><img src="{% static "/f.png" %}"/></a>
+							</div>
+						</div>
+					</div>
+			</div><br/><br/>
+		</div>
+{% endblock %}

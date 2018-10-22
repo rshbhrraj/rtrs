@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content_main %}
+	<title> Profile </title>
+{% endblock %}
+{% block content2 %}
+	{{ block.super }}
+		<div class="span12 well pass1">
+			<table style="width:100%;">
+				{% if form.errors %}
+					    {% for error in field.errors %}
+					    <tr><div class="alert alert-danger">
+				                <strong>{{ error|escape }}</strong>
+				            </div>
+				    	</tr>
+				        {% endfor %}
+				    	{% for error in form.non_field_errors %}
+					    <tr>
+				            <div class="alert alert-danger">
+				                <strong>{{ error|escape }}</strong>
+				            </div>
+				    	</tr>
+					    {% endfor %}
+					{% endif %}	
+					{% if messages %}
+						<div class="alert alert-success">
+					    {% for message in messages %}
+					    	<strong>{{ message }}</strong> 
+					    {% endfor %}
+						</div>
+					{% endif %}
+				
+			<tr>
+				<td><span style="font-weight:bold;font-size:25px;">Profile</span>
+				<a id="editp1" style="float:right;margin-right:5%;" class="btn btn-info"> Edit Profile</a></td>
+			<tr/>
+			<tr>
+				<td>
+					<div class="span8" style="float:left;width:80%;">
+					<table class="table">
+					<tr><td >First Name : </td> <td style="text-transform:capitalize;">{{ data.first_name }}</td></tr>
+					<tr><td >Last Name : </td> <td style="text-transform:capitalize;">{{ data.last_name }}</td></tr>
+					<tr><td>E-Mail : </td> <td>{{ data.email_id }}</td></tr>
+					<tr><td>Dob : </td> <td>{{ data.dob }}</td></tr>
+					<tr><td> Gender :</td> <td style="text-transform:capitalize;">{{ data.gender }}</td></tr>
+					<tr><td>Marital Status : </td> <td style="text-transform:capitalize;">{{ data.martial_status }}</td></tr>
+					<tr><td>Mobile No : </td> <td>{{ data.mobile_no }}</td></tr>
+					<tr><td>Security Question : </td> <td>{{ data.sec_question }}</td></tr>
+					<tr><td>Answer : </td> <td style="text-transform:capitalize;">{{ data.sec_ans }}</td></tr>
+					<tr><td></td> <td></td></tr>
+					</table>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<span style="width:35%;"><a id="cpass">Change Password</a></span>
+				<span class="label label-success" id="chang" style="float:right;display:none;">Password Successfully Changed &nbsp;&nbsp;&nbsp;<span>  <!-- display:none; color:#0000ff;-->
+				</td>
+			</tr>
+		</table>
+		</div>
+		<div class="span12 pass2 " style="display:none;">
+		<div class="span4 well">	
+		<h2>Change Password</h2>	
+		<br/>
+		<br/>
+
+		<form method="POST" >
+			{% csrf_token %}
+			<label>Original Password</label>
+			<input name ="original_password" type="password" class="input-large" ><span ></span></td><br><br> 
+
+			<label>New Password</label>
+			<input id="p1" name ="new_password" type="password" class="input-large" onkeyup="return check123()"><span id="ps" ></span></td><br><br> 
+			 <!-- onkeyup=="check()" -->
+			<label>Repeat Password</label>
+			<input id="p2" name="confirm_new_password" class="input-large" type="password" onkeyup="checkk()">
+
+			<br /><span id="match" style="color:#ff0000;visibility:hidden;">&nbsp;&nbsp;Password Don't Match</span><br><br> 
+			<input id="sub" type="submit" disabled="disabled" class="btn btn-info" value="Change Password" 
+			name="password_change">
+
+		</form>
+		</div>
+		</div>
+		
+		
+		
+		<div class="span12 pass3 " style="display:none;">
+		<div class="span8 well">
+			<table style="width:100%;">
+			<tr>
+				<td><span style="font-weight:bold;font-size:25px;">Profile</span>
+
+			<tr/>
+			<tr>
+				<td>
+					<form method="POST" >
+					{% csrf_token %}
+						<div class="span6" style="float:left;width:80%;">
+						<table class="table">
+							<tr>
+								<td >First Name </td> 
+								<td style="text-transform:capitalize; onblur="return name1()" >{{data.first_name}}
+								</td>
+							</tr>
+						<tr><td> Last name </td> <td><input style="text-transform:capitalize;" name="last_name" type="text" value="{{data.last_name}}"></td></tr>
+						<tr><td>E-Mail  </td> <td>{{data.email_id}}</td></tr>
+						<tr><td>Dob  </td> <td><input name="dob" type="date" value="{{data.dob}}"></td></tr>
+						<tr><td>Gender  </td>  <td><input style="text-transform:capitalize;" name="gender" type="text" value="{{data.gender}}"></td></tr>
+						<tr><td>Marital Status </td>  <td><input name="martial_status" type="text" value="{{data.martial_status}}" style="text-transform:capitalize;"></td></tr>
+						<tr><td>Mobile No.  </td>  <td><input name="mobile_no" type="text" value="{{data.mobile_no}}"></td></tr>
+						<tr><td>Security Question  </td>  <td>{{ data.sec_question }}</td></tr>
+						<tr><td>Answer  </td>  <td><input name="sec_ans" type="text" value="{{ data.sec_ans }}"></td></tr>
+						<tr>
+							<td></td> 
+							<td><input type="submit" value="Save Profile" class="btn btn-info" name="profile_change"></td>
+						</tr>
+						</table>
+						</div>
+					</form>
+				</td>
+			</tr>
+			</table>
+		</div>
+		</div>
+{% endblock %}

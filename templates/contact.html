@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_main %}
+	<title> Contact </title>
+{% endblock %}
+{% block content2 %}
+	{{ block.super }}	
+	
+	<div class="span12 well">
+		<h1 align="center">CONTACT US</h1>
+		<div style="border-top: solid 1px;">
+			<div style="width: 60%; float:left;">
+				<br />
+				<pre><h3>Ayush Tripathi</h3>
+				E-mail : ayush.tripathi2015@vit.ac.in
+				Contact : +91 9453890182
+				</pre>
+			</div>
+			<div style="width:40%; float:left; margin-top:17px;" >
+				<img src="{% static "/ayush.jpg" %}" style="height:180px;"/>
+			</div>
+		</div>
+		<br><br>
+	</div>
+{% endblock %}	

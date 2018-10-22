@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title> Indian Railways </title>
+	<link rel="shortcut icon" href="{% static "/favicon.png" %}" ></link>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link href="{% static "/bootstrap.min.css" %}" rel="stylesheet" >
+	<link href="{% static "/bootstrap.css" %}" rel="stylesheet" >
+	<link href="{% static "/Default.css" %}" rel="stylesheet" >	
+	<script type="text/javascript"  src="{% static "/jquery.js" %}"></script>
+	<script>
+		
+		$(document).ready(function()
+		{
+			//alert($(window).width());
+			var x=(($(window).width())-1024)/2;
+			//alert(x);
+			$('.wrap').css("left",x+"px");
+		});
+		$(window).resize(function(){
+			var x=(($(window).width())-1024)/2;
+			//alert(x);
+			$('.wrap').css("left",x+"px");
+		});
+	</script>
+	<script type="text/javascript" src="{% static "/bootstrap.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "/bootstrap.js" %}"></script>
+	<script type="text/javascript" src="{% static "/man.js" %}"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="header">
+			<div style="float:left;width:150px;">
+				<img src="{% static "logo.jpg" %}"/>
+			</div>		
+			<div id="heading">
+				<a href="/">Indian Railways</a>
+			</div>
+		</div>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container" >
+			<a class="brand" href="/" >HOME</a>
+			<a class="brand" href="/train/" >SEARCH TRAIN</a>
+			<a class="brand" href="/reservation/">RESERVATION</a>
+			<a class="brand" href="/profile/">PROFILE</a>
+			{% if request.session.username is not None %}
+				{% ifnotequal "invalid" request.session.username %}
+					<a class="brand" href="/display/">TICKETS</a>
+				{% else %}
+					<a class="brand" href="/about/">ABOUT US</a>
+				{% endifnotequal %}
+			{% else %}
+				<a class="brand" href="/about/">ABOUT US</a>
+			{% endif %}
+			<a class="brand" href="/contact/">CONTACT</a>
+			</div>
+		</div>
+	</div>
+<!-- Login and signup -->
+		<div align="center">
+			{% if form.errors %}
+				{% for field in form %}
+				    {% for error in field.errors %}
+				    <tr><div class="alert alert-danger">
+			                <strong>{{ error|escape }}</strong>
+			            </div>
+			    	</tr>
+			        {% endfor %}
+			    {% endfor %}
+		    	{% for error in form.non_field_errors %}
+			    <tr>
+		            <div class="alert alert-danger">
+		                <strong>{{ error|escape }}</strong>
+		            </div>
+		    	</tr>
+			    {% endfor %}
+			{% endif %}	
+			{% if messages %}
+				<tr>
+					<div class="alert alert-error">
+				    {% for message in messages %}
+				    	<strong>{{ message }}</strong> 
+				    {% endfor %}
+					</div>
+				</tr>
+			{% endif %}
+			<div  class=" well login">
+				<form class="form-signin " method="POST">
+				{% csrf_token %}
+				<table class="table" style="margin-bottom:4px;">
+				<tr>
+					<td style="border-top:0px;"><label> Username</label></td>
+					<td style="border-top:0px;"> <input type="text" name="username" class="input-block-level" placeholder="Username"></td>
+				</tr>
+				<tr>
+					<td style="border-top:0px;"> <label>Password</label></td>
+					<td style="border-top:0px;"><input type="password" name="password" class="input-block-level" placeholder="Password"></td>
+				</tr>
+				<tr>
+					<td style="border-top:0px;"> <label>Captcha</label></td>
+					<td style="border-top:0px;"> 
+						{{ form.captcha }}
+				    </td>
+					
+				</tr>
+
+				<tr>
+					<td style="border-top:0px;"></td>
+					<td style="border-top:0px;"> <input class="btn btn-info" type="submit" value="Login" ></td>
+				</tr>
+
+				<tr>
+					<td colspan="2" style="border-top:0px;"> 
+						<p>  Don't have an account?&nbsp;
+							<a  href="/signup/">Signup Here</a>
+						</p>
+						
+					</td>
+				</tr>
+				</table>
+				</form>
+				</div>
+			
+		</div>
+<footer >
+			<div style="width:100%;">
+				<div style="float:left;">
+					<p class="text-right text-info">  &copy; 2018 Copyright PVT Ltd.</p>	
+				</div>
+				<div style="float:right;">
+					<p class="text-right text-info">	Desinged By : Ayush Tripathi</p>
+				</div>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

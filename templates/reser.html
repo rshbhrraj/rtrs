@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content_main %}
+	<title> Resrvation </title>
+{% endblock %}
+
+{% block content2 %}
+		<div class="span12 well">
+			{% if form.errors %}
+			    {% for error in field.errors %}
+			    <tr><div class="alert alert-danger">
+		                <strong>{{ error|escape }}</strong>
+		            </div>
+		    	</tr>
+		        {% endfor %}
+		    	{% for error in form.non_field_errors %}
+			    <tr>
+		            <div class="alert alert-danger">
+		                <strong>{{ error|escape }}</strong>
+		            </div>
+		    	</tr>
+			    {% endfor %}
+			{% endif %}	
+			{% if messages %}
+				<div class="alert alert-success">
+			    {% for message in messages %}
+			    	<strong>{{ message }}</strong> 
+			    {% endfor %}
+				</div>
+			{% endif %}
+		<div class="display" style="height:30px;">
+				<table class="table">
+				<tr>
+					<th style="width:110px;border-top:0px;"> Train No.</th>
+					<th style="width:90px;border-top:0px;"> 1A</th>
+					<th style="width:90px;border-top:0px;"> 2A </th>
+					<th style="width:90px;border-top:0px;"> 3A </th>
+					<th style="width:90px;border-top:0px;"> AC </th>
+					<th style="width:90px;border-top:0px;"> CC </th>
+					<th style="width:90px;border-top:0px;"> SL </th>
+				</tr>
+				</table>
+		</div>
+		
+		<div class="display" style="margin-top:0px;height:30px;">
+				<form method="POST" >
+				{% csrf_token %}
+				<table class="table">
+				<tr>
+					<td style="width:110px;border-top:0px;"> 
+					<input name="train_number" style="display:none;" type="text" value="{{request.GET.train_num}}">{{request.GET.train_num}} </td>
+					<input name="from_station" style="display:none;" type="text" value="{{request.GET.from}}" > </td>
+					<input name="to_station" style="display:none;" type="text" value="{{request.GET.to}}"> </td>
+					<input name="doj" style="display:none;" type="text" value="{{request.GET.doj}}"> </td>
+					
+
+					<td style="width:90px;border-top:0px;"> <input type="radio" name="coach" value="1A"> </td>
+					<td style="width:90px;border-top:0px;"> <input type="radio" name="coach" value="2A"> </td>
+					<td style="width:90px;border-top:0px;"> <input type="radio" name="coach" value="3A"> </td>
+					<td style="width:90px;border-top:0px;"> <input type="radio" name="coach" value="AC"> </td>
+					<td style="width:90px;border-top:0px;"> <input type="radio" name="coach" value="CC"> </td>
+					<td style="width:90px;border-top:0px;"> <input type="radio" name="coach" value="SL"> </td>
+				</tr>
+				</table>
+				
+		</div>
+		<br /><br />
+		<div class="display" style="margin-top:0px;height:415px;">
+		<h2><font color="blue">Passenger Detail</font></h2>
+			
+			<table class="table">
+				<tr>
+					<th style="width:100px;border-top:0px;">SNo.</th>
+					<th style="width:200px;border-top:0px;"> Name</th>
+					<th style="width:100px;border-top:0px;"> Age </th>
+					<th style="width:100px;border-top:0px;"> Sex </th>
+				</tr>
+				<tr>
+					<td > 1</td>
+					<td ><input type="text" name="passenger_1_name" ></td>
+					<td ><input type="text" name="passenger_1_age" class="input-small"></td>
+					<td ><select name="passenger_1_sex" class="input-small">
+						<option value="male">MALE</option>
+						<option value="female">FEMALE</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td > 2</td>
+					<td ><input type="text" name="passenger_2_name" ></td>
+					<td ><input type="text" name="passenger_2_age" class="input-small"></td>
+					<td ><select name="passenger_2_sex" class="input-small">
+						<option value="male">MALE</option>
+						<option value="female">FEMALE</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td > 3</td>
+					<td ><input type="text" name="passenger_3_name" ></td>
+					<td ><input type="text" name="passenger_3_age" class="input-small"></td>
+					<td ><select name="passenger_3_sex" class="input-small">
+						<option value="male">MALE</option>
+						<option value="female">FEMALE</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td > 4</td>
+					<td ><input type="text" name="passenger_4_name" ></td>
+					<td ><input type="text" name="passenger_4_age" class="input-small"></td>
+					<td ><select name="passenger_4_sex" class="input-small">
+						<option value="male">MALE</option>
+						<option value="female">FEMALE</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td > 5</td>
+					<td ><input type="text" name="passenger_5_name" ></td>
+					<td ><input type="text" name="passenger_5_age" class="input-small"></td>
+					<td ><select name="passenger_5_sex" class="input-small">
+						<option value="male">MALE</option>
+						<option value="female">FEMALE</option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="border-top:0px;"><input class="btn btn-info"type="submit" value="Submit" id="subb" ></td>
+					<td style="border-top:0px;"><input class="btn btn-info"type="reset" value="Reset"></td>
+				</tr>	
+			</table>
+			</form>
+		</div>
+		
+		<div>
+		<br  />
+		<p> <font color="red"> CHILDREN BELOW 5 YEAR (FOR WHOM TICKET IS NOT TO BE ISSUED). </font> </p>
+		</div>
+		
+		</div>
+{% endblock %}
